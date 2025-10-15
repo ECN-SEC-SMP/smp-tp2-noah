@@ -8,6 +8,7 @@ all: $(EXEC_PROGRAM1)
 # Compilation de l'exécutable
 
 $(EXEC_PROGRAM1): ./build/main_test.o ./build/lit_ecrit.o ./build/utilitaires.o
+	mkdir -p build
 	g++ -o $(EXEC_PROGRAM1) ./build/main_test.o ./build/lit_ecrit.o ./build/utilitaires.o
 
 
