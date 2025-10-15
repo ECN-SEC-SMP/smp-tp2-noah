@@ -5,7 +5,7 @@ fichier entierlong.h
 pour définir le type t_EntierLong en C++ 
 */
 
-const int MAXCHIFFRES = 20;
+const int MAXCHIFFRES = 2;
 
 struct t_EntierLong
 {

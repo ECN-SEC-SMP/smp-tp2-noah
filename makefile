@@ -22,7 +22,7 @@ $(EXEC_PROGRAM1): ./build/main_test.o ./build/lit_ecrit.o ./build/utilitaires.o
 	
 # Supprime les fichiers objets et l'exécutable
 clean:
-	rm -f /build/*.o $(EXEC_PROGRAM1) 
+	rm -f build/*.o
 
 .PHONY: all clean
 

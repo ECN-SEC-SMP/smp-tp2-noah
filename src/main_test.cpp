@@ -9,17 +9,17 @@
 
 int main(void) {
     //test_EntierLongIsEqual();
-    //test_convertInt_Entierlong();
+    test_convertInt_Entierlong();
     t_EntierLong entierLong;
 
-    for (unsigned int i = 0; i < MAXCHIFFRES; i++)//Initialisation du tableau
+    /*for (unsigned int i = 0; i < 10; i++)//Initialisation du tableau
     {
         // mise à 0 de chaque entier
         entierLong.chiffres[i] = 0;    
     }
     entierLong.negatif = false;
     entierLong.chiffres[0] = 1;
-    afficheEntierLong(entierLong);
+    afficheEntierLong(entierLong);*/
     
 
     
@@ -33,7 +33,7 @@ int main(void) {
 
 void test_convertInt_Entierlong(void){
     //variables :
-    int entier1 = 32;
+    int entier1 = 30;
     t_EntierLong entierLong;
     entierLong = convertInt_Entierlong(entier1);
     cout << " convertit : ";

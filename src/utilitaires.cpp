@@ -6,7 +6,7 @@ t_EntierLong convertInt_Entierlong(int intToConvert){
     //Variables :
     t_EntierLong intConverted;
     string intToString = to_string(abs(intToConvert)); // Convertit en string
-    unsigned int lenght = size(intToString); // calcule la longeur
+    unsigned int lenght = intToString.size(); // calcule la longeur
     unsigned int y = 0;
     
     if (lenght > MAXCHIFFRES) {
