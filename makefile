@@ -42,7 +42,7 @@ $(EXEC_PROGRAM3): ./build/test_EntierLong.o ./build/lit_ecrit.o ./build/utilitai
 # Supprime les fichiers objets et l'exécutable
 clean:
 	rm -f build/*.o
-	rm -f $(EXEC_PROGRAM1)
+	rm -f $(EXEC_PROGRAM1) $(EXEC_PROGRAM3)
 
 .PHONY: all clean
 

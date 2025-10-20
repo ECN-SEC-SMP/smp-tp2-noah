@@ -6,6 +6,7 @@
 #include "unity.h"
 #include <iostream>
 
+//Def MAXCHIFFRES a 18 pour testé les exits codes;
 
 using namespace std;
 
@@ -42,15 +43,17 @@ void test_convertInt_Entierlong(void) {
     }
     // Reset du flag
     exit_called = 0;
-    // Test de conversion
+    // Variables pour les tests :
     long input1 = 12345;
     long input2 = -12345;
     int expected[5] = {5,4,3,2,1};
-    t_EntierLong result = convertInt_Entierlong(input1);
 
+    // test: conversion de 12345
+    t_EntierLong result = convertInt_Entierlong(input1);
     TEST_ASSERT_EQUAL(0, result.negatif);
     TEST_ASSERT_EQUAL_INT_ARRAY(expected, result.chiffres, 5);
 
+    // Test: conversion de -12345 → même chiffres, signe négatif
     t_EntierLong result_neg = convertInt_Entierlong(input2);
     TEST_ASSERT_EQUAL(1, result_neg.negatif);
     TEST_ASSERT_EQUAL_INT_ARRAY(expected, result_neg.chiffres, 5);
@@ -58,16 +61,20 @@ void test_convertInt_Entierlong(void) {
 
 
 void test_EntierLongIsEqual(void) {
-    // Test d'égalité
+    // Variables de test :
     t_EntierLong a = {0, {123}};
     t_EntierLong b = {1, {456}};
     t_EntierLong c = {1, {312}};
     
-    TEST_ASSERT_TRUE(EntierLongIsEqual(a, a));
-    TEST_ASSERT_TRUE(EntierLongIsEqual(b, b));
-    TEST_ASSERT_FALSE(EntierLongIsEqual(a, b));
-    TEST_ASSERT_FALSE(EntierLongIsEqual(b, c));
-    TEST_ASSERT_FALSE(EntierLongIsEqual(a, c));
+    // Test 1 : Vérification de l'égalité d'un entier long avec lui-même
+    TEST_ASSERT_TRUE(EntierLongIsEqual(a, a)); // a == a
+    TEST_ASSERT_TRUE(EntierLongIsEqual(b, b)); // b == b
+
+    // Test 2 : Vérification de l'inégalité entre différents entiers longs
+    TEST_ASSERT_FALSE(EntierLongIsEqual(a, b)); // a != b
+    TEST_ASSERT_FALSE(EntierLongIsEqual(b, c)); // b != c
+    TEST_ASSERT_FALSE(EntierLongIsEqual(a, c)); // a != c
+
 }
 
 void test_initialize(void) {
@@ -120,7 +127,25 @@ void test_abs_comparison(void) {
 
 void test_add(void) {
     // ===== TEST ADD SAME SIGN SEULEMENT =====
-    
+
+    // Test: 124 + 456 = 580 (positif)
+    t_EntierLong a = convertInt_Entierlong(124);
+    t_EntierLong b = convertInt_Entierlong(456);
+    t_EntierLong result = addSameSign(a, b);
+
+    int expected_pos[] = {0, 8, 5}; // 124 + 456 = 580 
+    TEST_ASSERT_EQUAL_INT_ARRAY(expected_pos, result.chiffres, 3);
+    TEST_ASSERT_EQUAL(false, result.negatif); // positif
+
+    // Test: -124 + -456 = -580 (négatif)
+    t_EntierLong c = convertInt_Entierlong(-124);
+    t_EntierLong d = convertInt_Entierlong(-456);
+    t_EntierLong result_neg = addSameSign(c, d);
+
+    int expected_neg[] = {0, 8, 5}; // même chiffres que pour le positif
+    TEST_ASSERT_EQUAL_INT_ARRAY(expected_neg, result_neg.chiffres, 3);
+    TEST_ASSERT_EQUAL(true, result_neg.negatif); // négatif
+
     // Test 1: Addition positifs simples (5 + 3 = 8)
     t_EntierLong pos_a = {0, {5}};
     t_EntierLong pos_b = {0, {3}};
@@ -399,13 +424,13 @@ void test_multiplication(void) {
     // ===== TEST MULTIPLICATION =====
     
     // Test 1: Multiplication positifs simples (5 × 4 = 20)
-    t_EntierLong mult_a = {0, {5}};
-    t_EntierLong mult_b = {0, {4}};
+    t_EntierLong mult_a = {0, {0,5}};
+    t_EntierLong mult_b = {0, {7,4}};
     t_EntierLong mult_result1 = multiplication(mult_a, mult_b);
     
     TEST_ASSERT_EQUAL(0, mult_result1.negatif);
-    int expected_mult1[2] = {0,2};
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected_mult1, mult_result1.chiffres, 2);
+    int expected_mult1[4] = {0,5,3,2};
+    TEST_ASSERT_EQUAL_INT_ARRAY(expected_mult1, mult_result1.chiffres, 4);
 
     // Test 2: Multiplication avec signes différents (positif × négatif = négatif)
     t_EntierLong mult_pos = {0, {3}};
@@ -495,19 +520,19 @@ void test_division(void) {
     int expected_reste2[1] = {3};
     TEST_ASSERT_EQUAL_INT_ARRAY(expected_reste2, reste2.chiffres, 1);
 
-    // Test 3: Division positif ÷ négatif (-15 ÷ 3 = -5 reste 0)
-    t_EntierLong dividende3 = {1, {5,1}};  // -15
+    // Test 3: Division positif ÷ négatif (-152 ÷ 3 = -5 reste 0)
+    t_EntierLong dividende3 = {1, {2,5,1}};  // -152
     t_EntierLong diviseur3 = {0, {3}};    // 3
     t_EntierLong quotient3, reste3;
     
     divisionEuclidienne(dividende3, diviseur3, quotient3, reste3);
     
     TEST_ASSERT_EQUAL(1, quotient3.negatif);  // Quotient négatif
-    int expected_quotient3[1] = {5};
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected_quotient3, quotient3.chiffres, 1);
+    int expected_quotient3[2] = {0,5};
+    TEST_ASSERT_EQUAL_INT_ARRAY(expected_quotient3, quotient3.chiffres, 2);
     
     TEST_ASSERT_EQUAL(1, reste3.negatif);    // Reste a le signe du dividende
-    int expected_reste3[1] = {0};
+    int expected_reste3[1] = {2};
     TEST_ASSERT_EQUAL_INT_ARRAY(expected_reste3, reste3.chiffres, 1);
 
     // Test 4: Division par 1 (42 ÷ 1 = 42 reste 0)
