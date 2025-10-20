@@ -25,8 +25,7 @@ make
 make clean
 ```
 
-## Préambule : Représentation des Grands Entiers
-
+## Préambule : Représentation d'EntierLong
 
 Pour représenter des nombres dépassant les limites des types primitifs, nous utilisons la structure `t_EntierLong` :
 
@@ -60,8 +59,8 @@ n.chiffres = {6, 5, 4, 3, 2, 1, 0, 0, ..., 0};
 
 ### Stratégie de test effectué
 
-- **Tests de cas normaux** : Validation du comportement attendu
-- **Tests de cas limites** : Valeurs particulières (0, nombres maximaux)
+- **Tests de cas normaux** : Validation du comportement nominal
+- **Tests de cas limites** : Valeurs particulières (0, nombres max)
 - **Tests d'erreur** : Vérification des conditions d'échec
 
 ### Fonctions Unity utilisées
@@ -71,14 +70,12 @@ TEST_ASSERT_EQUAL_INT_ARRAY(expected, actual, MAXCHIFFRES);  // Comparaison tabl
 TEST_ASSERT_EQUAL(expected, actual);                         // Comparaison valeurs
 TEST_ASSERT_TRUE(condition);                                 // Test booléen
 TEST_ASSERT_FALSE(condition);                                // Test booléen inverse
-TEST_FAIL_MESSAGE("message");                                // Échec explicite
+
 ```
 
 #### Fonctions nécessaires aux tests
 ```cpp
 void setUp(void) {
-    exit_called = 0;
-    cerr.rdbuf(nullptr); // Désactive les sorties d'erreur pendant les tests
 }
 
 void tearDown(void) {
@@ -86,31 +83,28 @@ void tearDown(void) {
 }
 ```
 
-### Avantages de Unity pour ce projet
+### Avantages du framework Unity pour ce projet
 
 1. **Simplicité d'utilisation** : Syntaxe claire et intuitive
 2. **Portabilité** : Compatible avec tous les environnements C/C++
-3. **Granularité** : Tests unitaires isolés et reproductibles
-4. **Fonctions spécialisées** : `TEST_ASSERT_EQUAL_INT_ARRAY` parfait pour nos tableaux
-5. **Gestion d'erreurs** : Capture possible des `exit()` avec `setjmp/longjmp`
-6. **Étendue des tests** : Grand nombre de cas différents vérifiers et testés
+3. **Précision** : Tests unitaires isolés et reproductibles
+4. **Gestion d'erreurs** : Capture possible des `exit()` avec `setjmp/longjmp`
+5. **Étendue des tests** : Grand nombre de cas différents vérifiers et testés
 
 Cette approche avec Unity augmente la fiabilité et la robustesse de toutes les fonctionss implémentées.
 
 
-## Fonctions Utilitaires
+## Partie 1 : Fonctions Utilitaires
 
-### - Fonction `convertInt_Entierlong`
+### - Fonction `convertInt_Entierlong` :
 
-#### Spécification
+#### Prototype 
 ```cpp
 t_EntierLong convertInt_Entierlong(long long intToConvert);
 ```
-**Précondition :** `intToConvert` doit avoir au maximum 18 chiffres
-**Postcondition :** Retourne la conversion en `t_EntierLong` de l'entier
 
 #### Description du principe
-Conversion par extraction successive des chiffres. Utilise `to_string()` pour obtenir la représentation décimale, puis stocke chaque chiffre dans l'ordre inverse (unités à l'index 0).
+Conversion d'entier vers t_EntierLong. Utilise `to_string()` pour obtenir la représentation décimale, puis stocke chaque chiffre dans l'ordre inverse.
 
 #### Jeux d'essais avec Unity
 <details>
