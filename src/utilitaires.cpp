@@ -2,7 +2,14 @@
 #include "cmath"
 #include <iostream>
 
-t_EntierLong convertInt_Entierlong(int intToConvert){
+/**
+ * @brief Convertit un entier en t_EntierLong
+ *
+ * @param intToConvert L'entier à convertir
+ * @return t_EntierLong La structure contenant les chiffres et le signe
+ * 
+ */
+t_EntierLong convertInt_Entierlong(long long intToConvert){
     //Variables :
     t_EntierLong intConverted;
     string intToString = to_string(abs(intToConvert)); // Convertit en string
@@ -38,6 +45,14 @@ t_EntierLong convertInt_Entierlong(int intToConvert){
 }
 
 
+/**
+ * @brief Compare deux valeurs t_EntierLong
+ **
+ * @param a Premier t_EntierLong à comparer.
+ * @param b Deuxième t_EntierLong à comparer.
+ * 
+ * @return true Si les deux structures sont identiques (même signe et mêmes chiffres).
+ */
 bool EntierLongIsEqual(t_EntierLong a, t_EntierLong b){
     if (a.negatif != b.negatif){
         return false; // vérification du signe
@@ -48,6 +63,38 @@ bool EntierLongIsEqual(t_EntierLong a, t_EntierLong b){
         }      
     }
     return true;
+}
+
+
+
+bool EntierLongAbsComparison(t_EntierLong n1, t_EntierLong n2){
+    
+    unsigned int i1 = 1, i2 = 1;
+    while (n1.chiffres[MAXCHIFFRES-i1] < 1 && i1 < MAXCHIFFRES)
+    {
+        i1++;  // recherche du premier chiffre non nul
+    }
+    while (n2.chiffres[MAXCHIFFRES-i2] < 1 && i2 < MAXCHIFFRES)
+    {
+        i2++; // recherche du premier chiffre non nul
+    }
+
+    if (i1 > i2) // Vérification si N1 a moins de chiffres que N2 (inversé car on commence par la fin du tableau)
+    {
+        return true;
+    }
+    else if ((i1 == i2) && (n1.chiffres[MAXCHIFFRES-i1] <= n2.chiffres[MAXCHIFFRES-i2]))// si même nombre de chiffres, on compare le chiffre le plus significatif
+    {
+        return true;
+    }else { // n1 a plus de chiffres que n2
+        return false;       
+    }
+}
+
+void initializeEntierLong(t_EntierLong &n) {
+    for (unsigned int i = 0; i < MAXCHIFFRES; i++) {
+        n.chiffres[i] = 0;
+    }
 }
 
 
